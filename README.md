@@ -13,3 +13,7 @@ Subsequently with the Update-Database command it will be possible to apply the m
 At the end of the scaffolding operations in your console you should have a result similar to this
 
 ![image](https://user-images.githubusercontent.com/49655304/149158998-c77c1101-952f-4db3-aba9-b0006fde4445.png)
+
+## Development
+
+This Blazor Web Assembly demo project was created following the tutorial on Youtube: https://www.youtube.com/watch?v=8AGO-y4FQGo
