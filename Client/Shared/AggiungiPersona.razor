@@ -1,0 +1,63 @@
+﻿@page "/aggiungipersona"
+@using DemoBlazorApp.Shared
+@using DemoBlazorApp.Shared.Models.Entities
+@inject HttpClient Http
+@inject NavigationManager NavigationManager
+
+<h1>Nuova persona</h1>
+
+<p>&nbsp;</p>
+<EditForm Model="persona" OnValidSubmit="Create">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <div class="row">
+        <div class="col-md-8">
+            <div class="form-group">
+                <label id="Cognome" class="control-label">Cognome</label>
+                <InputText id="Cognome" @bind-Value="persona.Cognome"></InputText>
+                @*<ValidationMessage For="@(() => persona.Cognome)" />*@
+            </div>
+
+            <div class="form-group">
+                <label id="Nome" class="control-label">Nome</label>
+                <InputText id="Nome" @bind-Value="persona.Nome"></InputText>
+                @*<ValidationMessage For="@(() => persona.Nome)" />*@
+            </div>
+
+            <div class="form-group">
+                <label id="Email" class="control-label">Indirizzo Email</label>
+                <InputText id="Email" @bind-Value="persona.Email"></InputText>
+                @*<ValidationMessage For="@(() => persona.Email)" />*@
+            </div>
+
+            <div class="form-group">
+                <label id="Telefono" class="control-label">Telefono</label>
+                <InputText id="Telefono" @bind-Value="persona.Telefono"></InputText>
+                @*<ValidationMessage For="@(() => persona.Telefono)" />*@
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12 text-right">
+            <button type="submit" class="btn btn-success">Aggiungi</button>
+            <button type="button" @onclick="@Cancel" class="btn btn-secondary">Annulla</button>
+        </div>
+    </div>
+</EditForm>
+
+@code {
+
+    Persona persona = new Persona();
+
+    public void Cancel()
+    {
+        NavigationManager.NavigateTo("/fetchpersone");
+    }
+
+    private async Task Create()
+    {
+        await Http.PostAsJsonAsync<Persona>("api/persone", persona);
+        NavigationManager.NavigateTo("/fetchpersone");
+    }
+}

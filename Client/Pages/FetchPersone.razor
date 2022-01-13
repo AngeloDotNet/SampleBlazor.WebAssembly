@@ -5,7 +5,6 @@
 <h1>Rubrica</h1>
 
 <p>&nbsp;</p>
-<p><a href="/aggiungipersona">Aggiungi persona</a></p>
 
 @if (persone == null)
 {
@@ -13,6 +12,8 @@
 }
 else
 {
+    <p><a href="/aggiungipersona" class="btn btn-outline-primary">Nuovo</a></p>
+
     <table class="table">
         <thead>
             <tr>
@@ -31,9 +32,9 @@ else
                     <td>@item.Nome</td>
                     <td>@item.Email</td>
                     <td>@item.Telefono</td>
-                    <td><a href="/dettagliopersona/@item.PersonaId">Dettaglio</a> | 
-                        <a href="/modificapersona/@item.PersonaId">Modifica</a> | 
-                        <a href="/cancellapersona/@item.PersonaId">Cancella</a></td>
+                    <td><a href="/dettagliopersona/@item.PersonaId" class="btn btn-outline-secondary">Dettaglio</a> 
+                        <a href="/modificapersona/@item.PersonaId" class="btn btn-outline-warning">Modifica</a> 
+                        <a href="/cancellapersona/@item.PersonaId" class="btn btn-outline-danger">Cancella</a></td>
                 </tr>
             }
         </tbody>
