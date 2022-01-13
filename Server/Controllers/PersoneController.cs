@@ -10,12 +10,10 @@ namespace DemoBlazorApp.Server.Controllers
     [ApiController]
     public class PersoneController : ControllerBase
     {
-        //private readonly BlazorAppDbContext _context;
         private readonly IPersonaService personaService;
 
         public PersoneController(IPersonaService personaService)
         {
-            //_context = context;
             this.personaService = personaService;
         }
 
@@ -23,7 +21,6 @@ namespace DemoBlazorApp.Server.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Persona>>> GetPersone()
         {
-            //return await _context.Persone.ToListAsync();
             return await personaService.ElencoPersone();
         }
 
@@ -31,7 +28,6 @@ namespace DemoBlazorApp.Server.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Persona>> GetPersona(int id)
         {
-            //var persona = await _context.Persone.FindAsync(id);
             var persona = await personaService.DatiPersona(id);
 
             if (persona == null)
@@ -52,24 +48,7 @@ namespace DemoBlazorApp.Server.Controllers
                 return BadRequest();
             }
 
-            //_context.Entry(persona).State = EntityState.Modified;
             await personaService.ModificaPersona(id, persona);
-
-            //try
-            //{
-            //    await _context.SaveChangesAsync();
-            //}
-            //catch (DbUpdateConcurrencyException)
-            //{
-            //    if (!PersonaExists(id))
-            //    {
-            //        return NotFound();
-            //    }
-            //    else
-            //    {
-            //        throw;
-            //    }
-            //}
 
             return NoContent();
         }
@@ -79,8 +58,6 @@ namespace DemoBlazorApp.Server.Controllers
         [HttpPost]
         public async Task<ActionResult<Persona>> PostPersona(Persona persona)
         {
-            //_context.Persone.Add(persona);
-            //await _context.SaveChangesAsync();
             await personaService.AggiungiPersona(persona);
 
             return CreatedAtAction("GetPersona", new { id = persona.PersonaId }, persona);
@@ -90,23 +67,9 @@ namespace DemoBlazorApp.Server.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeletePersona(int id)
         {
-            //var persona = await _context.Persone.FindAsync(id);
-            //if (persona == null)
-            //{
-            //    return NotFound();
-            //}
-
-            //_context.Persone.Remove(persona);
-            //await _context.SaveChangesAsync();
-
             await personaService.CancellaPersona(id);
 
             return NoContent();
         }
-
-        //private bool PersonaExists(int id)
-        //{
-        //    return _context.Persone.Any(e => e.PersonaId == id);
-        //}
     }
 }

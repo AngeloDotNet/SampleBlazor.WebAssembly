@@ -1,4 +1,3 @@
-using DemoBlazorApp.Shared.Models.Services.Application.Persone;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -17,8 +16,6 @@ namespace DemoBlazorApp.Client
 
             //builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
             builder.Services.AddTransient(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
-
-            builder.Services.AddTransient<IPersonaService, EfCorePersonaService>();
 
             await builder.Build().RunAsync();
         }
