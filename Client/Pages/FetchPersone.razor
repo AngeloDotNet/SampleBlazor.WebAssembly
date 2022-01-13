@@ -1,0 +1,56 @@
+﻿@page "/fetchpersone"
+@using DemoBlazorApp.Shared.Models.Entities
+@using DemoBlazorApp.Shared.Models.Services.Application.Persone
+@inject HttpClient Http
+@inject IPersonaService EfCorePersonaService
+
+<h1>Rubrica</h1>
+
+@*<p>This component demonstrates fetching data from the server.</p>*@
+
+@if (persone == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th width="20%">Cognome</th>
+                <th width="20%">Nome</th>
+                <th width="20%">Email</th>
+                <th width="20%">Telefono</th>
+                <th width="20%">Operazioni</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in persone)
+            {
+                <tr>
+                    <td>@item.Cognome</td>
+                    <td>@item.Nome</td>
+                    <td>@item.Email</td>
+                    <td>@item.Telefono</td>
+                    @*<td><button @onclick="@(() => ModificaPersona(item.PersonaId))"></button></td>*@
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    List<Persona> persone;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadElenco();
+    }
+
+    private async Task LoadElenco()
+    {
+        //persone = await Http.GetFromJsonAsync<Persona[]>("api/persone");
+        //persone = await Http.GetFromJsonAsync<List<Persona>>("api/persone");
+        persone = await EfCorePersonaService.ElencoPersone();
+    }
+}
