@@ -1,6 +1,7 @@
 using DemoBlazorApp.Shared.Models.Enums;
 using DemoBlazorApp.Shared.Models.Options;
 using DemoBlazorApp.Shared.Models.Services.Infrastructure;
+using DemoBlazorApp.Shared.Models.Services.Application.Persone;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -21,7 +22,6 @@ namespace DemoBlazorApp.Server
 
         public void ConfigureServices(IServiceCollection services)
         {
-            //services.AddControllersWithViews();
             services.AddMvc();
             services.AddRazorPages();
 
@@ -42,7 +42,9 @@ namespace DemoBlazorApp.Server
 
                     break;
             }
+            services.AddTransient<IPersonaService, EfCorePersonaService>();
 
+            //Options
             services.Configure<ConnectionStringsOptions>(Configuration.GetSection("ConnectionStrings"));
         }
 
