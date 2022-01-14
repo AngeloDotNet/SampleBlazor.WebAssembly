@@ -8,46 +8,49 @@
 
 <p>&nbsp;</p>
 <EditForm Model="persona" persona="@persona" OnValidSubmit="Modify">
-    <DataAnnotationsValidator />
-    <ValidationSummary />
-
     <div class="row">
-        <div class="col-md-8">
+        <div class="col-12"><DataAnnotationsValidator />
+        <ValidationSummary /></div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
             <div class="form-group">
                 <label id="Cognome" class="control-label">Cognome</label>
-                <InputText id="Cognome" @bind-Value="persona.Cognome"></InputText>
+                <InputText id="Cognome" class="form-control form-control-lg" @bind-Value="persona.Cognome"></InputText>
                 @*<ValidationMessage For="@(() => persona.Cognome)" />*@
             </div>
-
+        </div>
+        <div class="col-md-6">
             <div class="form-group">
                 <label id="Nome" class="control-label">Nome</label>
-                <InputText id="Nome" @bind-Value="persona.Nome"></InputText>
+                <InputText id="Nome" class="form-control form-control-lg" @bind-Value="persona.Nome"></InputText>
                 @*<ValidationMessage For="@(() => persona.Nome)" />*@
             </div>
-
+        </div>
+        <div class="col-md-6">
             <div class="form-group">
                 <label id="Email" class="control-label">Indirizzo Email</label>
-                <InputText id="Email" @bind-Value="persona.Email"></InputText>
+                <InputText id="Email" class="form-control form-control-lg" @bind-Value="persona.Email"></InputText>
                 @*<ValidationMessage For="@(() => persona.Email)" />*@
             </div>
-
+        </div>
+        <div class="col-md-6">
             <div class="form-group">
                 <label id="Telefono" class="control-label">Telefono</label>
-                <InputText id="Telefono" @bind-Value="persona.Telefono"></InputText>
+                <InputText id="Telefono" class="form-control form-control-lg" @bind-Value="persona.Telefono"></InputText>
                 @*<ValidationMessage For="@(() => persona.Telefono)" />*@
             </div>
         </div>
     </div>
     <div class="row">
-        <div class="col-md-12 text-right">
-            <button type="submit" class="btn btn-success">Modifica</button>
-            <button type="button" @onclick="@Cancel" class="btn btn-secondary">Annulla</button>
+        <div class="col-md-12 text-center">
+            <button type="submit" class="btn btn-outline-primary btn-lg ml-3">Modifica</button>
+            <button type="button" @onclick="@Cancel" class="btn btn-outline-secondary btn-lg ml-3">Annulla</button>
         </div>
     </div>
 </EditForm>
 
 @code {
-
     [Parameter] public int Id { get; set; }
 
     Persona persona = new Persona();
