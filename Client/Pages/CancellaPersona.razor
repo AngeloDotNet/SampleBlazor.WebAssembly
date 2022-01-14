@@ -1,0 +1,19 @@
+﻿@page "/cancellapersona/{Id:int}"
+@using DemoBlazorApp.Shared
+@using DemoBlazorApp.Shared.Models.Entities
+@inject HttpClient Http
+@inject NavigationManager NavigationManager
+
+@code {
+    [Parameter] public int Id { get; set; }
+
+    Persona persona = new Persona();
+
+    protected async override Task OnParametersSetAsync()
+    {
+        persona = await Http.GetFromJsonAsync<Persona>($"api/persone/{Id}");
+
+        await Http.DeleteAsync($"api/persone/{persona.PersonaId}");
+        NavigationManager.NavigateTo("/fetchpersone");
+    }
+}
