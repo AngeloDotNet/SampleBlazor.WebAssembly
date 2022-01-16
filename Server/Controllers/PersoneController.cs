@@ -2,7 +2,6 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using DemoBlazorApp.Shared.Models.Entities;
-using DemoBlazorApp.Server.Models.Services.Application.Persone;
 using DemoBlazorApp.Server.Models.Services.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 
@@ -12,12 +11,15 @@ namespace DemoBlazorApp.Server.Controllers
     [ApiController]
     public class PersoneController : ControllerBase
     {
+        //TODO: E' possibile cancellare la parte APPLICATION / PERSONE in quanto non viene più utilizzata
         private readonly BlazorAppDbContext dbContext;
-        private readonly IPersonaService personaService;
+        //private readonly IPersonaService personaService;
 
-        public PersoneController(IPersonaService personaService, BlazorAppDbContext dbContext)
+        //public PersoneController(IPersonaService personaService, BlazorAppDbContext dbContext)
+        public PersoneController(BlazorAppDbContext dbContext)
         {
-            this.personaService = personaService;
+            //this.personaService = personaService;
+            this.dbContext = dbContext;
         }
 
         // GET: api/Persone
@@ -56,14 +58,31 @@ namespace DemoBlazorApp.Server.Controllers
 
         // PUT: api/Persone/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutPersona(int id, Persona persona)
+        public async Task<IActionResult> PutPersona(Persona persona)
+        //public async Task<IActionResult> PutPersona(int id, Persona persona)
         {
-            if (id != persona.PersonaId)
+            // if (id != persona.PersonaId)
+            // {
+            //     return BadRequest();
+            // }
+
+            // await personaService.ModificaPersona(id, persona);
+            // return NoContent();
+
+            var Id = await dbContext.Persone.FindAsync(persona.PersonaId);
+            
+            if (Id == null)
             {
                 return BadRequest();
             }
 
-            await personaService.ModificaPersona(id, persona);
+            // if (id != persona.PersonaId)
+            // {
+            //     return BadRequest();
+            // }
+
+            dbContext.Entry(persona).State = EntityState.Modified;
+            await dbContext.SaveChangesAsync();
 
             return NoContent();
         }
@@ -72,8 +91,18 @@ namespace DemoBlazorApp.Server.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeletePersona(int id)
         {
-            await personaService.CancellaPersona(id);
+            //await personaService.CancellaPersona(id);
 
+            var personaId = await dbContext.Persone.FindAsync(id);
+            
+            if (personaId == null)
+            {
+                return BadRequest();
+            }
+
+            dbContext.Persone.Remove(personaId);
+            await dbContext.SaveChangesAsync();
+            
             return NoContent();
         }
     }
