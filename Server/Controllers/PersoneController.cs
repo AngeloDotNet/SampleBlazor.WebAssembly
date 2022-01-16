@@ -57,7 +57,8 @@ namespace DemoBlazorApp.Server.Controllers
         }
 
         // PUT: api/Persone/5
-        [HttpPut("{id}")]
+        //[HttpPut("{id}")]
+        [HttpPut()]
         public async Task<IActionResult> PutPersona(Persona persona)
         //public async Task<IActionResult> PutPersona(int id, Persona persona)
         {
