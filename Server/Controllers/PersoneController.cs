@@ -57,30 +57,16 @@ namespace DemoBlazorApp.Server.Controllers
         }
 
         // PUT: api/Persone/5
-        //[HttpPut("{id}")]
-        [HttpPut()]
-        public async Task<IActionResult> PutPersona(Persona persona)
-        //public async Task<IActionResult> PutPersona(int id, Persona persona)
+        [HttpPut("{id}")]
+        public async Task<IActionResult> PutPersona(int id, Persona persona)
         {
-            // if (id != persona.PersonaId)
-            // {
-            //     return BadRequest();
-            // }
-
-            // await personaService.ModificaPersona(id, persona);
-            // return NoContent();
-
-            var Id = await dbContext.Persone.FindAsync(persona.PersonaId);
-            
-            if (Id == null)
+            if (id != persona.PersonaId)
             {
                 return BadRequest();
             }
 
-            // if (id != persona.PersonaId)
-            // {
-            //     return BadRequest();
-            // }
+            // await personaService.ModificaPersona(id, persona);
+            // return NoContent();
 
             dbContext.Entry(persona).State = EntityState.Modified;
             await dbContext.SaveChangesAsync();
