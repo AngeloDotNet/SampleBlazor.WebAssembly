@@ -1,11 +1,11 @@
 ﻿using DemoBlazorApp.Shared.Models.Entities;
-using DemoBlazorApp.Shared.Models.Services.Infrastructure;
+using DemoBlazorApp.Server.Models.Services.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace DemoBlazorApp.Shared.Models.Services.Application.Persone
+namespace DemoBlazorApp.Server.Models.Services.Application.Persone
 {
     public class EfCorePersonaService : IPersonaService
     {
@@ -23,20 +23,11 @@ namespace DemoBlazorApp.Shared.Models.Services.Application.Persone
             return await dbContext.Persone.ToListAsync();
         }
 
-        public async Task<bool> AggiungiPersona(Persona persona)
+        public async Task AggiungiPersona(Persona persona)
         {
             //persona.PersonaId = Guid.NewGuid().ToString(); In questo caso non serve in quanto l'ID viene generato automaticamente da SQLite
             dbContext.Add(persona);
-
-            try
-            {
-                await dbContext.SaveChangesAsync();
-                return true;
-            }
-            catch (DbUpdateException)
-            {
-                return false;
-            }
+            await dbContext.SaveChangesAsync();
         }
 
         public async Task<Persona> DatiPersona(int id)

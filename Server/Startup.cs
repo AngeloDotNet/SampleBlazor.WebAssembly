@@ -1,7 +1,7 @@
 using DemoBlazorApp.Shared.Models.Enums;
 using DemoBlazorApp.Shared.Models.Options;
-using DemoBlazorApp.Shared.Models.Services.Infrastructure;
-using DemoBlazorApp.Shared.Models.Services.Application.Persone;
+using DemoBlazorApp.Server.Models.Services.Infrastructure;
+using DemoBlazorApp.Server.Models.Services.Application.Persone;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -35,7 +35,7 @@ namespace DemoBlazorApp.Server
                         string connectionString = Configuration.GetSection("ConnectionStrings").GetValue<string>("Default");
                         optionBuilder.UseSqlite(connectionString, options =>
                         {
-                            // Abilitazione del connection resiliency (Non è supportato dal provider di Sqlite perché non è soggetto a errori transienti)
+                            // Abilitazione del connection resiliency (Non ï¿½ supportato dal provider di Sqlite perchï¿½ non ï¿½ soggetto a errori transienti)
                             // Per informazioni consultare la pagina: https://docs.microsoft.com/en-us/ef/core/miscellaneous/connection-resiliency
                         });
                     });

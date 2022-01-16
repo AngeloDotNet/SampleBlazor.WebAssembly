@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using DemoBlazorApp.Shared.Models.Entities;
-using DemoBlazorApp.Shared.Models.Services.Application.Persone;
+using DemoBlazorApp.Server.Models.Services.Application.Persone;
 
 namespace DemoBlazorApp.Server.Controllers
 {

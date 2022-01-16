@@ -1,7 +1,7 @@
 ﻿using DemoBlazorApp.Shared.Models.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace DemoBlazorApp.Shared.Models.Services.Infrastructure
+namespace DemoBlazorApp.Server.Models.Services.Infrastructure
 {
     public partial class BlazorAppDbContext : DbContext
     {
