@@ -1,0 +1,4 @@
+punto 1 spostare in service le chiamate API ora presenti nelle pagine razor
+punto 2 creare componente per Edit e Create per poi richiamarlo
+punto 3 eliminare la parte application/services e spostare il tutto nel controller così da richiamare direttamente il dbcontext
+punto 4 spostare il codice da shared a server
