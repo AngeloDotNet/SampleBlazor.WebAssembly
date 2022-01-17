@@ -1,6 +1,4 @@
-using DemoBlazorApp.Shared.Models.Enums;
-using DemoBlazorApp.Shared.Models.Options;
-using DemoBlazorApp.Server.Models.Services.Infrastructure;
+using DemoBlazorApp.Server.Entities;
 using DemoBlazorApp.Server.Models.Services.Application.Persone;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -58,9 +56,9 @@ namespace DemoBlazorApp.Server
 
             services.AddSwaggerGen(config =>
             {
-                config.SwaggerDoc("v1", new OpenApiInfo 
-                { 
-                    Title = "Demo API Blazor App", 
+                config.SwaggerDoc("v1", new OpenApiInfo
+                {
+                    Title = "Demo API Blazor App",
                     Version = "v1",
                     // Description = "API example that returns the current time",
                     // TermsOfService = new Uri("https://example.com/terms"), 
@@ -81,9 +79,6 @@ namespace DemoBlazorApp.Server
             });
 
             services.AddTransient<IPersonaService, EfCorePersonaService>();
-
-            //Options
-            services.Configure<ConnectionStringsOptions>(Configuration.GetSection("ConnectionStrings"));
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

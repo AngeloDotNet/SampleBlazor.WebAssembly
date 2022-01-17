@@ -1,11 +1,11 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace DemoBlazorApp.Shared.Models.Entities
+namespace DemoBlazorApp.Shared.Models
 {
-    public partial class Persona
+    public class PersonaViewModel
     {
         public int PersonaId { get; set; }
-        
+
         [Required(ErrorMessage = "Il cognome è obbligatorio")]
         public string Cognome { get; set; }
 

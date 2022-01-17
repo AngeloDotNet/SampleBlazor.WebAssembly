@@ -1,6 +1,7 @@
 ﻿@page "/aggiungipersona"
+@using DemoBlazorApp.Client.Components
 @using DemoBlazorApp.Shared
-@using DemoBlazorApp.Shared.Models.Entities
+@using DemoBlazorApp.Shared.Models
 @inject HttpClient Http
 @inject NavigationManager NavigationManager
 
@@ -12,36 +13,7 @@
         <div class="col-12"><DataAnnotationsValidator />
         <ValidationSummary /></div>
     </div>
-    <div class="row">
-        <div class="col-md-6">
-            <div class="form-group">
-                <label id="Cognome" class="control-label">Cognome</label>
-                <InputText id="Cognome" class="form-control form-control-lg" @bind-Value="persona.Cognome" placeholder="Cognome"></InputText>
-                @*<ValidationMessage For="@(() => persona.Cognome)" />*@
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div class="form-group">
-                <label id="Nome" class="control-label">Nome</label>
-                <InputText id="Nome" class="form-control form-control-lg" @bind-Value="persona.Nome" placeholder="Nome"></InputText>
-                @*<ValidationMessage For="@(() => persona.Nome)" />*@
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div class="form-group">
-                <label id="Email" class="control-label">Indirizzo Email</label>
-                <InputText id="Email" class="form-control form-control-lg" @bind-Value="persona.Email" placeholder="Indirizzo Email"></InputText>
-                @*<ValidationMessage For="@(() => persona.Email)" />*@
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div class="form-group">
-                <label id="Telefono" class="control-label">Telefono</label>
-                <InputText id="Telefono" class="form-control form-control-lg" @bind-Value="persona.Telefono" placeholder="Telefono"></InputText>
-                @*<ValidationMessage For="@(() => persona.Telefono)" />*@
-            </div>
-        </div>
-    </div>
+    <PersonaComponent persona=@persona></PersonaComponent>
     <div class="row">
         <div class="col-md-12 text-center">
             <button type="submit" class="btn btn-outline-primary btn-lg ml-3">Aggiungi</button>
@@ -51,7 +23,7 @@
 </EditForm>
 
 @code {
-    Persona persona = new Persona();
+    PersonaViewModel persona = new PersonaViewModel();
 
     public void Cancel()
     {
@@ -60,7 +32,7 @@
 
     private async Task Create()
     {
-        await Http.PostAsJsonAsync<Persona>("api/persone", persona);
+        await Http.PostAsJsonAsync<PersonaViewModel>("api/persone", persona);
         NavigationManager.NavigateTo("/fetchpersone");
     }
 }
