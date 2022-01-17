@@ -1,4 +1,4 @@
-﻿namespace DemoBlazorApp.Shared.Models.Enums
+﻿namespace DemoBlazorApp.Server.Entities
 {
     public enum Persistence
     {

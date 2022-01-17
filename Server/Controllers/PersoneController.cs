@@ -1,9 +1,9 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿using DemoBlazorApp.Server.Entities;
+using DemoBlazorApp.Server.Models.Services.Application.Persone;
+using DemoBlazorApp.Shared.Models;
 using Microsoft.AspNetCore.Mvc;
-using DemoBlazorApp.Shared.Models.Entities;
-using DemoBlazorApp.Server.Models.Services.Infrastructure;
-using Microsoft.EntityFrameworkCore;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace DemoBlazorApp.Server.Controllers
 {
@@ -11,86 +11,83 @@ namespace DemoBlazorApp.Server.Controllers
     [ApiController]
     public class PersoneController : ControllerBase
     {
-        //TODO: E' possibile cancellare la parte APPLICATION / PERSONE in quanto non viene più utilizzata
-        private readonly BlazorAppDbContext dbContext;
-        //private readonly IPersonaService personaService;
+        private readonly IPersonaService personaService;
 
-        //public PersoneController(IPersonaService personaService, BlazorAppDbContext dbContext)
-        public PersoneController(BlazorAppDbContext dbContext)
+        public PersoneController(IPersonaService personaService)
         {
-            //this.personaService = personaService;
-            this.dbContext = dbContext;
+            this.personaService = personaService;
         }
 
         // GET: api/Persone
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Persona>>> GetPersone()
+        public async Task<IActionResult> GetPersone()
         {
-            //return await personaService.ElencoPersone();
-            return await dbContext.Persone.ToListAsync();
+            var entities = await personaService.ElencoPersone();
+
+            return Ok(entities.Select(t => new PersonaViewModel
+            {
+                Nome = t.Nome,
+                Cognome = t.Cognome,
+                Email = t.Email,
+                Telefono = t.Telefono,
+                PersonaId = t.PersonaId,
+            }));
         }
 
         // POST: api/Persone
         [HttpPost]
-        public async Task<ActionResult<Persona>> PostPersona(Persona persona)
+        public async Task<ActionResult<PersonaViewModel>> PostPersona(PersonaViewModel persona)
         {
-            //await personaService.AggiungiPersona(persona);
-            dbContext.Add(persona);
-            await dbContext.SaveChangesAsync();
-
+            var entity = new PersonaEntity
+            {
+                Nome = persona.Nome,
+                Email = persona.Email,
+                Cognome = persona.Cognome,
+                Telefono = persona.Telefono
+            };
+            await personaService.AggiungiPersona(entity);
             return CreatedAtAction("GetPersona", new { id = persona.PersonaId }, persona);
         }
 
         // GET: api/Persone/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Persona>> GetPersona(int id)
+        public async Task<IActionResult> GetPersona(int id)
         {
-            //var persona = await personaService.DatiPersona(id);
-            var persona = await dbContext.Persone.FindAsync(id);
-
+            var persona = await personaService.DatiPersona(id);
             if (persona == null)
             {
                 return NotFound();
             }
 
-            return persona;
+            return Ok(persona);
         }
 
         // PUT: api/Persone/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutPersona(int id, Persona persona)
+        public async Task<IActionResult> PutPersona(int id, PersonaViewModel persona)
         {
             if (id != persona.PersonaId)
             {
                 return BadRequest();
             }
-
-            // await personaService.ModificaPersona(id, persona);
-            // return NoContent();
-
-            dbContext.Entry(persona).State = EntityState.Modified;
-            await dbContext.SaveChangesAsync();
-
-            return NoContent();
+            var entity = new PersonaEntity
+            {
+                PersonaId = persona.PersonaId,
+                Nome = persona.Nome,
+                Email = persona.Email,
+                Cognome = persona.Cognome,
+                Telefono = persona.Telefono
+            };
+            await personaService.ModificaPersona(entity);
+            return Ok();
         }
 
         // DELETE: api/Persone/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeletePersona(int id)
         {
-            //await personaService.CancellaPersona(id);
-
-            var personaId = await dbContext.Persone.FindAsync(id);
-            
-            if (personaId == null)
-            {
-                return BadRequest();
-            }
-
-            dbContext.Persone.Remove(personaId);
-            await dbContext.SaveChangesAsync();
-            
-            return NoContent();
+            await personaService.CancellaPersona(id);
+            return Ok();
         }
     }
 }
