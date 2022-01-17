@@ -1,0 +1,38 @@
+@page "/dettagliopersona/{Id:int}"
+@using DemoBlazorApp.Client.Components
+@using DemoBlazorApp.Shared
+@using DemoBlazorApp.Shared.Models
+@inject HttpClient Http
+@inject NavigationManager NavigationManager
+
+<h1>Dettaglio persona</h1>
+
+<p>&nbsp;</p>
+<EditForm Model="persona" persona="@persona">
+    <div class="row">
+        <div class="col-12"><DataAnnotationsValidator />
+        <ValidationSummary /></div>
+    </div>
+   <PersonaViewComponent persona=@persona></PersonaViewComponent>
+    <div class="row">
+        <div class="col-md-12 text-center">
+            <button type="button" @onclick="@Cancel" class="btn btn-outline-secondary btn-lg ml-3">Torna indietro</button>
+        </div>
+    </div>
+</EditForm>
+
+@code {
+    [Parameter] public int Id { get; set; }
+
+    PersonaViewModel persona = new PersonaViewModel();
+
+    protected async override Task OnParametersSetAsync()
+    {
+        persona = await Http.GetFromJsonAsync<PersonaViewModel>($"api/persone/{Id}");
+    }
+
+    public void Cancel()
+    {
+        NavigationManager.NavigateTo("/fetchpersone");
+    }
+}
