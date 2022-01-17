@@ -1,5 +1,5 @@
 ﻿@page "/fetchpersone"
-@using DemoBlazorApp.Shared.Models.Entities
+@using DemoBlazorApp.Shared.Models
 @inject HttpClient Http
 
 <h1>Rubrica</h1>
@@ -42,7 +42,7 @@ else
 }
 
 @code {
-    List<Persona> persone;
+    List<PersonaViewModel> persone;
 
     protected override async Task OnInitializedAsync()
     {
@@ -51,6 +51,6 @@ else
 
     private async Task LoadElenco()
     {
-        persone = await Http.GetFromJsonAsync<List<Persona>>("api/persone");
+        persone = await Http.GetFromJsonAsync<List<PersonaViewModel>>("api/persone");
     }
 }

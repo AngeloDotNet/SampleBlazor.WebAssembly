@@ -1,8 +1,9 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿using DemoBlazorApp.Server.Entities;
+using DemoBlazorApp.Server.Models.Services.Application.Persone;
+using DemoBlazorApp.Shared.Models;
 using Microsoft.AspNetCore.Mvc;
-using DemoBlazorApp.Shared.Models.Entities;
-using DemoBlazorApp.Shared.Models.Services.Application.Persone;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace DemoBlazorApp.Server.Controllers
 {
@@ -19,48 +20,66 @@ namespace DemoBlazorApp.Server.Controllers
 
         // GET: api/Persone
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Persona>>> GetPersone()
+        public async Task<IActionResult> GetPersone()
         {
-            return await personaService.ElencoPersone();
+            var entities = await personaService.ElencoPersone();
+
+            return Ok(entities.Select(t => new PersonaViewModel
+            {
+                Nome = t.Nome,
+                Cognome = t.Cognome,
+                Email = t.Email,
+                Telefono = t.Telefono,
+                PersonaId = t.PersonaId,
+            }));
+        }
+
+        // POST: api/Persone
+        [HttpPost]
+        public async Task<ActionResult<PersonaViewModel>> PostPersona(PersonaViewModel persona)
+        {
+            var entity = new PersonaEntity
+            {
+                Nome = persona.Nome,
+                Email = persona.Email,
+                Cognome = persona.Cognome,
+                Telefono = persona.Telefono
+            };
+            await personaService.AggiungiPersona(entity);
+            return CreatedAtAction("GetPersona", new { id = persona.PersonaId }, persona);
         }
 
         // GET: api/Persone/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Persona>> GetPersona(int id)
+        public async Task<IActionResult> GetPersona(int id)
         {
             var persona = await personaService.DatiPersona(id);
-
             if (persona == null)
             {
                 return NotFound();
             }
 
-            return persona;
+            return Ok(persona);
         }
 
         // PUT: api/Persone/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutPersona(int id, Persona persona)
+        public async Task<IActionResult> PutPersona(int id, PersonaViewModel persona)
         {
             if (id != persona.PersonaId)
             {
                 return BadRequest();
             }
-
-            await personaService.ModificaPersona(id, persona);
-
-            return NoContent();
-        }
-
-        // POST: api/Persone
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPost]
-        public async Task<ActionResult<Persona>> PostPersona(Persona persona)
-        {
-            await personaService.AggiungiPersona(persona);
-
-            return CreatedAtAction("GetPersona", new { id = persona.PersonaId }, persona);
+            var entity = new PersonaEntity
+            {
+                PersonaId = persona.PersonaId,
+                Nome = persona.Nome,
+                Email = persona.Email,
+                Cognome = persona.Cognome,
+                Telefono = persona.Telefono
+            };
+            await personaService.ModificaPersona(entity);
+            return Ok();
         }
 
         // DELETE: api/Persone/5
@@ -68,8 +87,7 @@ namespace DemoBlazorApp.Server.Controllers
         public async Task<IActionResult> DeletePersona(int id)
         {
             await personaService.CancellaPersona(id);
-
-            return NoContent();
+            return Ok();
         }
     }
 }

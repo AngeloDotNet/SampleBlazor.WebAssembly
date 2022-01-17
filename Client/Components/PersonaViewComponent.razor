@@ -1,0 +1,32 @@
+﻿@using DemoBlazorApp.Shared.Models
+<div class="row">
+    <div class="col-md-6">
+        <div class="form-group">
+            <label id="Cognome" class="control-label">Cognome</label>
+            <label class="col-form-label col-lg">@persona.Cognome</label>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="form-group">
+            <label id="Nome" class="control-label">Nome</label>
+            <label class="col-form-label col-lg">@persona.Nome</label>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="form-group">
+            <label id="Email" class="control-label">Indirizzo Email</label>
+            <label class="col-form-label col-lg">@persona.Email</label>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="form-group">
+            <label id="Telefono" class="control-label">Telefono</label>
+            <label class="col-form-label col-lg">@persona.Telefono</label>
+        </div>
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public PersonaViewModel persona { get; set; }
+}

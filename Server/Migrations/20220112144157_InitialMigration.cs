@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace DemoBlazorApp.Shared.Migrations
+namespace DemoBlazorApp.Server.Migrations
 {
     public partial class InitialMigration : Migration
     {

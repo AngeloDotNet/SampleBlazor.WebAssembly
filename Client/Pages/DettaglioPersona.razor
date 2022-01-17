@@ -1,23 +1,22 @@
-﻿@page "/modificapersona/{Id:int}"
+@page "/dettagliopersona/{Id:int}"
 @using DemoBlazorApp.Client.Components
 @using DemoBlazorApp.Shared
 @using DemoBlazorApp.Shared.Models
 @inject HttpClient Http
 @inject NavigationManager NavigationManager
 
-<h1>Modifica persona</h1>
+<h1>Dettaglio persona</h1>
 
 <p>&nbsp;</p>
-<EditForm Model="persona" persona="@persona" OnValidSubmit="Modify">
+<EditForm Model="persona" persona="@persona">
     <div class="row">
         <div class="col-12"><DataAnnotationsValidator />
         <ValidationSummary /></div>
     </div>
-   <PersonaComponent persona=@persona></PersonaComponent>
+   <PersonaViewComponent persona=@persona></PersonaViewComponent>
     <div class="row">
         <div class="col-md-12 text-center">
-            <button type="submit" class="btn btn-outline-primary btn-lg ml-3">Modifica</button>
-            <button type="button" @onclick="@Cancel" class="btn btn-outline-secondary btn-lg ml-3">Annulla</button>
+            <button type="button" @onclick="@Cancel" class="btn btn-outline-secondary btn-lg ml-3">Torna indietro</button>
         </div>
     </div>
 </EditForm>
@@ -30,12 +29,6 @@
     protected async override Task OnParametersSetAsync()
     {
         persona = await Http.GetFromJsonAsync<PersonaViewModel>($"api/persone/{Id}");
-    }
-
-    private async Task Modify()
-    {
-        await Http.PutAsJsonAsync($"api/persone/{persona.PersonaId}", persona);
-        NavigationManager.NavigateTo("/fetchpersone");
     }
 
     public void Cancel()
