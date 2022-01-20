@@ -4,6 +4,7 @@
         <div class="form-group">
             <label id="Cognome" class="control-label">Cognome</label>
             <InputText id="Cognome" class="form-control form-control-lg" @bind-Value="persona.Cognome" placeholder="Cognome"></InputText>
+            @*<ValidationMessage For="@(() => persona.Cognome)" />*@
         </div>
     </div>
     <div class="col-md-6">
