@@ -8,37 +8,36 @@
 
 @if (persone == null)
 {
-    <p><em>Loading...</em></p>
+    @* <p><em>Loading...</em></p> *@
+    <div class="text-center">
+        <div class="spinner-border" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+    </div>
 }
 else
 {
     <p><a href="/aggiungipersona" class="btn btn-outline-primary">Nuovo</a></p>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th width="20%">Cognome</th>
-                <th width="20%">Nome</th>
-                <th width="20%">Email</th>
-                <th width="20%">Telefono</th>
-                <th width="20%"></th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in persone)
-            {
-                <tr>
-                    <td>@item.Cognome</td>
-                    <td>@item.Nome</td>
-                    <td>@item.Email</td>
-                    <td>@item.Telefono</td>
-                    <td><a href="/dettagliopersona/@item.PersonaId" class="btn btn-outline-secondary">Dettaglio</a> 
-                        <a href="/modificapersona/@item.PersonaId" class="btn btn-outline-warning">Modifica</a> 
-                        <a href="/cancellapersona/@item.PersonaId" class="btn btn-outline-danger">Cancella</a></td>
-                </tr>
-            }
-        </tbody>
-    </table>
+    <div class="row">
+        <div class="col-md-2 titolo">Cognome</div>
+        <div class="col-md-2 titolo">Nome</div>
+        <div class="col-md-2 titolo">Email</div>
+        <div class="col-md-2 titolo">Telefono</div>
+        <div class="col-md-4 titolo"></div>
+    </div>
+    @foreach (var item in persone)
+    {
+        <div class="row">
+            <div class="col-md-2 testo">@item.Cognome</div>
+            <div class="col-md-2 testo">@item.Nome</div>
+            <div class="col-md-2 testo">@item.Email</div>
+            <div class="col-md-2 testo">@item.Telefono</div>
+            <div class="col-md-4 testo"><a href="/dettagliopersona/@item.PersonaId" class="btn btn-outline-secondary">Dettaglio</a>
+                <a href="/modificapersona/@item.PersonaId" class="btn btn-outline-warning">Modifica</a>
+                <a href="/cancellapersona/@item.PersonaId" class="btn btn-outline-danger">Cancella</a></div>
+        </div>
+    }
 }
 
 @code {

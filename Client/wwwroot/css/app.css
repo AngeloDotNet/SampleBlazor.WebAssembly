@@ -48,3 +48,16 @@ a, .btn-link {
     right: 0.75rem;
     top: 0.5rem;
 }
+
+.titolo {
+    line-height: 50px;
+    color: #990000;
+    font-weight: bold;
+    text-align: center;
+}
+
+.testo {
+    line-height: 50px;
+    color: #000000;
+    text-align: center;
+}
